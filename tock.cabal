@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 87ad9f283fee25de8a151c36ac98bc18e29fd6db7888d56e96353ac47c1f1175
+-- hash: 25cc23ba77dba15efc2e49ecac017f6ace968092e5823d013b00f64fac31293f
 
 name:           tock
 version:        0.1.0.0
@@ -33,7 +33,7 @@ library
       Paths_tock
   hs-source-dirs:
       src
-  default-extensions: DeriveAnyClass DeriveFunctor RecordWildCards RecursiveDo StandaloneDeriving QuasiQuotes TemplateHaskell
+  default-extensions: ApplicativeDo DeriveAnyClass DeriveFunctor RecordWildCards RecursiveDo StandaloneDeriving QuasiQuotes TemplateHaskell
   build-depends:
       base >=4.7 && <5
     , deriving-compat
@@ -41,6 +41,7 @@ library
     , filepath
     , optparse-applicative
     , recursion-schemes
+    , split
     , template-haskell
     , uri-encode
   default-language: Haskell2010
@@ -51,7 +52,7 @@ executable tock
       Paths_tock
   hs-source-dirs:
       app
-  default-extensions: DeriveAnyClass DeriveFunctor RecordWildCards RecursiveDo StandaloneDeriving QuasiQuotes TemplateHaskell
+  default-extensions: ApplicativeDo DeriveAnyClass DeriveFunctor RecordWildCards RecursiveDo StandaloneDeriving QuasiQuotes TemplateHaskell
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       base >=4.7 && <5
@@ -60,6 +61,7 @@ executable tock
     , filepath
     , optparse-applicative
     , recursion-schemes
+    , split
     , template-haskell
     , tock
     , uri-encode
@@ -72,7 +74,7 @@ test-suite tock-test
       Paths_tock
   hs-source-dirs:
       test
-  default-extensions: DeriveAnyClass DeriveFunctor RecordWildCards RecursiveDo StandaloneDeriving QuasiQuotes TemplateHaskell
+  default-extensions: ApplicativeDo DeriveAnyClass DeriveFunctor RecordWildCards RecursiveDo StandaloneDeriving QuasiQuotes TemplateHaskell
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       base >=4.7 && <5
@@ -81,6 +83,7 @@ test-suite tock-test
     , filepath
     , optparse-applicative
     , recursion-schemes
+    , split
     , template-haskell
     , tock
     , uri-encode

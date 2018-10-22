@@ -4,6 +4,7 @@ import           Control.Arrow
 import           Control.Monad
 import           Data.Functor.Foldable
 import           Data.List
+import           Data.Maybe
 import           Data.Tree
 import           System.Directory
 import           System.FilePath.Posix
@@ -50,22 +51,32 @@ andChildren toc children = Fix $
 --     else
 --     return st
 
-genToc :: FilePath -> IO [Toc]
-genToc fp = do
+data GenOptions = GenOptions { fileExtensions :: Maybe [String]
+                             }
+
+genToc :: GenOptions -> FilePath -> IO [Toc]
+genToc genOptions@GenOptions{..} fp = do
   childFPs <- map (id &&& (fp </>)) <$> listDirectory fp
-  childTocs <- forM childFPs $ \(name, fullName) -> do
-    let childFP = fp </> name
-    isDir <- doesDirectoryExist childFP
-    let st = singletonToc $ TocItem { title = name
-                                    , link = childFP
-                                    , type_ = if isDir then Directory else File
-                                    }
-    if isDir
-      then do
-      childTocs <- genToc childFP
-      return $ st `andChildren` (sortBy sortFunc childTocs)
-      else
-      return st
+  childTocs <- catMaybes <$> forM childFPs (
+    \(name, fullName) -> do
+      let childFP = fp </> name
+      isDir <- doesDirectoryExist childFP
+      if isDir
+        then do
+        let st = singletonToc $ TocItem { title = name
+                                        , link = childFP
+                                        , type_ = Directory
+                                        }
+        childTocs <- genToc genOptions childFP
+        return $ Just $ st `andChildren` sortBy sortFunc childTocs
+        else
+        if isJust fileExtensions && (takeExtension name `elem` fromJust fileExtensions)
+        then return $ Just $ singletonToc $ TocItem { title = name
+                                                    , link = childFP
+                                                    , type_ = File
+                                                    }
+        else return Nothing
+    )
   return $ sortBy sortFunc childTocs
   where
     sortFunc (Fix (NodeF{ node = TocItem{ title = title1, type_ = t1 }})) (Fix (NodeF{ node = TocItem{ title = title2, type_ = t2 }}))

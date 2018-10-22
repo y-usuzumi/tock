@@ -1,3 +1,4 @@
+import           Data.List.Split
 import           Options.Applicative
 import           System.Directory
 import           System.FilePath.Posix
@@ -6,6 +7,7 @@ import           Tock.DataTypes
 
 data Args = Args { dir              :: FilePath
                  , excludeEmptyDirs :: Bool
+                 , fileExtensions   :: Maybe [String]
                  }
 
 
@@ -17,6 +19,14 @@ argsParser = Args
   <*> flag False True (short 'x'
                       <> help "Exclude directories that do not have files (recursively)"
                       )
+  <*> do
+    s <- strOption ( long "file-extensions"
+                   <> short 'f'
+                   <> metavar "FILE-EXTENSIONS"
+                   <> help "Comma-separated file extensions to include"
+                   <> value ""
+                   )
+    return $ if null s then Nothing else Just (splitOn "," s)
 
 opts :: ParserInfo Args
 opts = info (argsParser <**> helper)
@@ -26,12 +36,10 @@ opts = info (argsParser <**> helper)
   )
 
 run :: Args -> IO ()
-run Args{..} = genToc dir >>= putStrLn . renderTocs RenderOptions{ excludeEmptyDirs = excludeEmptyDirs
-                                                                 }
+run Args{..} = genToc genOptions dir >>= putStrLn . renderTocs renderOptions
   where
-    pred fp =
-      (||) <$> doesDirectoryExist fp <*> (return . (== ".md") . takeExtension) fp
-
+    renderOptions = RenderOptions { excludeEmptyDirs = excludeEmptyDirs}
+    genOptions = GenOptions { fileExtensions = fileExtensions }
 
 
 main :: IO ()

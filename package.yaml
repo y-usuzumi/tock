@@ -26,10 +26,12 @@ dependencies:
 - filepath
 - recursion-schemes
 - optparse-applicative
+- split
 - template-haskell
 - uri-encode
 
 default-extensions:
+- ApplicativeDo
 - DeriveAnyClass
 - DeriveFunctor
 - RecordWildCards
