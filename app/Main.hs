@@ -1,4 +1,5 @@
 import           Data.List.Split
+import           Debug.Trace
 import           Options.Applicative
 import           System.Directory
 import           System.FilePath.Posix
@@ -21,7 +22,7 @@ argsParser = Args
                       )
   <*> do
     s <- strOption ( long "file-extensions"
-                   <> short 'f'
+                   <> short 'e'
                    <> metavar "FILE-EXTENSIONS"
                    <> help "Comma-separated file extensions to include"
                    <> value ""

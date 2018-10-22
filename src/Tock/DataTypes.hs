@@ -70,7 +70,7 @@ genToc genOptions@GenOptions{..} fp = do
         childTocs <- genToc genOptions childFP
         return $ Just $ st `andChildren` sortBy sortFunc childTocs
         else
-        if isJust fileExtensions && (takeExtension name `elem` fromJust fileExtensions)
+        if isNothing fileExtensions || isJust fileExtensions && drop 1 (takeExtension name) `elem` fromJust fileExtensions
         then return $ Just $ singletonToc $ TocItem { title = name
                                                     , link = childFP
                                                     , type_ = File
