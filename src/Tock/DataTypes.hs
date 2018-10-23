@@ -79,7 +79,7 @@ genToc genOptions@GenOptions{..} fp = do
     )
   return $ sortBy sortFunc childTocs
   where
-    sortFunc (Fix (NodeF{ node = TocItem{ title = title1, type_ = t1 }})) (Fix (NodeF{ node = TocItem{ title = title2, type_ = t2 }}))
+    sortFunc (Fix NodeF{ node = TocItem{ title = title1, type_ = t1 }}) (Fix NodeF{ node = TocItem{ title = title2, type_ = t2 }})
       | t1 < t2 = GT
       | t1 > t2 = LT
       | t1 == t2 = compare title1 title2
