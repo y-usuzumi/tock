@@ -1,8 +1,10 @@
--- This file has been generated from package.yaml by hpack version 0.28.2.
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.31.1.
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 25cc23ba77dba15efc2e49ecac017f6ace968092e5823d013b00f64fac31293f
+-- hash: d3e894eb257d4de4eec0e4e2ebe4955ee7e8b90b3b317b715eb8c1313306b954
 
 name:           tock
 version:        0.1.0.0
@@ -15,10 +17,9 @@ copyright:      2018 Yukio Usuzumi
 license:        BSD3
 license-file:   LICENSE
 build-type:     Simple
-cabal-version:  >= 1.10
 extra-source-files:
-    ChangeLog.md
     README.md
+    ChangeLog.md
 
 source-repository head
   type: git
